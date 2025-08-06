@@ -1,8 +1,10 @@
 import { app } from "./app";
+import { env } from "./env";
+
 
 app.listen({
     host: '0.0.0.0',
-    port: 3000
+    port: env.port
 }).then(() => {
-    console.log('🚀 http server running on port 3000')
+    console.log(`🚀 http server running on port ${env.port}`)
 })

@@ -13,3 +13,42 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Pet {
+  id      String @id @default(uuid())
+  name    String
+  breed   String
+  color   String
+  age     Int
+  size    String
+  details String
+
+  ong    Ong    @relation(fields: [ong_id], references: [id])
+  ong_id String
+}
+
+model Ong {
+  id            String   @id @default(uuid())
+  name          String
+  socialReason  String
+  cnpj          String
+  phone_number  String
+  email         String   @unique
+  password_hash String
+  address       String
+  zipcode       String
+  created_at    DateTime @default(now())
+  updated_at    DateTime
+
+  Pets Pet[]
+
+  city    City   @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  city_id String
+}
+
+model City {
+  id    String @id @default(uuid())
+  name  String
+  state String
+  Ong   Ong[]
+}
