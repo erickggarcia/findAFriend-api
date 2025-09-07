@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./src/prisma"
 }
 
 datasource db {
@@ -14,41 +13,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pet {
-  id      String @id @default(uuid())
-  name    String
-  breed   String
-  color   String
-  age     Int
-  size    String
-  details String
+enum Role {
+  ADMIN
+  MEMBER
+}
 
-  ong    Ong    @relation(fields: [ong_id], references: [id])
-  ong_id String
+model Pet {
+  id         String   @id @default(uuid())
+  photoUrl   String   @map("photo_url")
+  name       String
+  breed      String
+  color      String
+  age        Int
+  size       String
+  details    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  ong   Ong    @relation(fields: [ongId], references: [id])
+  ongId String @map("ong_id")
+
+  @@map("pets")
 }
 
 model Ong {
   id            String   @id @default(uuid())
+  photoUrl      String   @map("photo_url")
   name          String
-  socialReason  String
-  cnpj          String
-  phone_number  String
+  socialReason  String   @map("social_reason")
+  cnpj          String   @unique
+  whatsapp      String
   email         String   @unique
   password_hash String
   address       String
   zipcode       String
   created_at    DateTime @default(now())
-  updated_at    DateTime
+  updated_at    DateTime @updatedAt()
 
   Pets Pet[]
 
-  city    City   @relation(fields: [city_id], references: [id], onDelete: Cascade)
-  city_id String
+  role   Role   @default(MEMBER)
+  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId String @map("city_id")
+
+  @@map("ongs")
 }
 
 model City {
-  id    String @id @default(uuid())
-  name  String
-  state String
-  Ong   Ong[]
+  id      String @id @default(uuid())
+  name    String
+  Ongs    Ong[]
+  state   State  @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  stateId String @map("state_id")
+
+  @@map("cities")
+}
+
+model State {
+  id   String @id @default(uuid())
+  name String
+  city City[]
+
+  @@map("states")
 }
