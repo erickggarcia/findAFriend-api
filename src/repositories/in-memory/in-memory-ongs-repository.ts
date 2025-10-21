@@ -5,9 +5,9 @@ import { randomUUID } from "node:crypto";
 export class InMemoryOngsRepository implements OngsRepository {
     private ongs: Ong[] = [];
 
-    async create(data: Prisma.OngUncheckedCreateInput) {
+    async register(data: Prisma.OngUncheckedCreateInput) {
         const ong = {
-                id: randomUUID(),
+                id: data.id ?? randomUUID(),
                 photoUrl: data.photoUrl || null,
                 name:data.name,
                 socialReason: data.socialReason,
@@ -27,4 +27,14 @@ export class InMemoryOngsRepository implements OngsRepository {
 
         return ong
     }
+
+    async findByEmail(email: string) {
+        const userAlreadyExists = this.ongs.find(ong => ong.email === email)
+
+       if(!userAlreadyExists) { 
+        return null
+       }
+
+       return userAlreadyExists
+     }
 }

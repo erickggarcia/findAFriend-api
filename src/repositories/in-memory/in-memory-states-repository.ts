@@ -8,7 +8,7 @@ export class InMemoryStatesRepository implements StatesRepository {
     async create(data: Prisma.StateUncheckedCreateInput) {
         
         const state = {
-            id: randomUUID(),
+            id: data.id ?? randomUUID(),
             name: data.name,
         }
 
