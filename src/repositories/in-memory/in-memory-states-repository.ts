@@ -18,14 +18,14 @@ export class InMemoryStatesRepository implements StatesRepository {
     }
 
     async findStateIdByName(name: string){
-        const stateId = this.states.find(state => state.name.toLowerCase().trim() === name.toLowerCase().trim())
+        const state = this.states.find(state => state.name.toLowerCase().trim() === name.toLowerCase().trim())
 
-        if(!stateId){ 
-            console.log("State not found")
-            return null
+        if(!state){ 
+           console.log("State not found:", name);
+              return null
         }
 
-        return stateId.id
+        return state.id
     }
 
 }
