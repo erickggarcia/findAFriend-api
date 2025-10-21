@@ -28,7 +28,7 @@ model Pet {
   size       String
   details    String
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
+  updated_at DateTime?
 
   ong   Ong    @relation(fields: [ongId], references: [id])
   ongId String @map("ong_id")
@@ -38,7 +38,7 @@ model Pet {
 
 model Ong {
   id            String   @id @default(uuid())
-  photoUrl      String   @map("photo_url")
+  photoUrl      String?   @map("photo_url")
   name          String
   socialReason  String   @map("social_reason")
   cnpj          String   @unique
@@ -48,7 +48,7 @@ model Ong {
   address       String
   zipcode       String
   created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt()
+  updated_at    DateTime?
 
   Pets Pet[]
 
