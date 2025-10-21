@@ -2,7 +2,6 @@ import { InMemoryCitiesRepository } from "@/repositories/in-memory/in-memory-cit
 import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-states-repository";
 import { describe, it, beforeEach, expect } from "vitest";
 import { CreateCityUseCase } from "./create-city";
-import { before } from "node:test";
 
 let statesRepository: InMemoryStatesRepository
 let citiesRepository: InMemoryCitiesRepository
