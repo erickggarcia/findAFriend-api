@@ -10,6 +10,7 @@ export class PrismaStatesRepository implements StatesRepository {
 
        return state
     }
+
     async findStateIdByName(name: string): Promise<State["id"] | null> {
         throw new Error("Method not implemented.");
     }

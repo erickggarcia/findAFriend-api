@@ -28,4 +28,5 @@ export class InMemoryCitiesRepository implements CitiesRepository {
 
         return city.id
     }
+
 }

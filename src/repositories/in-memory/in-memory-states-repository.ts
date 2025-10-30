@@ -26,6 +26,6 @@ export class InMemoryStatesRepository implements StatesRepository {
         }
 
         return state.id
-    }
+    }  
 
 }
