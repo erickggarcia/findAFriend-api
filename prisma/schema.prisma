@@ -18,16 +18,22 @@ enum Role {
   MEMBER
 }
 
+enum Size {
+  BIG
+  MEDIUM
+  SMALL
+}
+
 model Pet {
-  id         String   @id @default(uuid())
-  photoUrl   String   @map("photo_url")
+  id         String    @id @default(uuid())
+  photoUrl   String    @map("photo_url")
   name       String
   breed      String
   color      String
   age        Int
-  size       String
+  size       Size
   details    String
-  created_at DateTime @default(now())
+  created_at DateTime  @default(now())
   updated_at DateTime?
 
   ong   Ong    @relation(fields: [ongId], references: [id])
@@ -37,17 +43,17 @@ model Pet {
 }
 
 model Ong {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   photoUrl      String?   @map("photo_url")
   name          String
-  socialReason  String   @map("social_reason")
-  cnpj          String   @unique
+  socialReason  String    @map("social_reason")
+  cnpj          String    @unique
   whatsapp      String
-  email         String   @unique
+  email         String    @unique
   password_hash String
   address       String
   zipcode       String
-  created_at    DateTime @default(now())
+  created_at    DateTime  @default(now())
   updated_at    DateTime?
 
   Pets Pet[]

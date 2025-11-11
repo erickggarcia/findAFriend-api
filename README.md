@@ -3,7 +3,9 @@
 pet adoption api
 
 ## RFs (Requisitos funcionais)
-- [] Deve ser possível cadastrar um pet;
+- [X] Deve ser possível cadastrar um pet;
+- [X] Deve ser possível cadastrar uma cidade;
+- [X] Deve ser possível cadastrar um estado;
 - [] Deve ser possível filtrar pets por suas características;
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade;
 - [] Deve ser possível visualizar detalhes de um pet para adoção;
