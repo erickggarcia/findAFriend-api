@@ -29,4 +29,8 @@ export class InMemoryCitiesRepository implements CitiesRepository {
         return city
     }
 
+    async fetchAllCities() {
+        return this.cities
+    }
+
 }

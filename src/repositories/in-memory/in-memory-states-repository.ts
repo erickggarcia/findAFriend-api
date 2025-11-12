@@ -28,4 +28,8 @@ export class InMemoryStatesRepository implements StatesRepository {
         return state
     }
 
+    async fetchAllStates() {
+        return this.states
+    }
+
 }
