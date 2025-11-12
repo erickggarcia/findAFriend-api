@@ -3,30 +3,30 @@ import { CitiesRepository } from "../cities-repository";
 import { randomUUID } from "node:crypto";
 
 export class InMemoryCitiesRepository implements CitiesRepository {
-   
+
     private cities: City[] = [];
 
     async create(data: Prisma.CityUncheckedCreateInput): Promise<City> {
-        
-       const city = {
+
+        const city = {
             id: data.id ?? randomUUID(),
             name: data.name,
             stateId: data.stateId,
-       }
+        }
 
-       this.cities.push(city);
+        this.cities.push(city);
 
-       return city;
+        return city;
     }
 
-     async findCityIdByName(name: string) {
-        const city = this.cities.find(city => city.name.toLowerCase().trim() === name.toLowerCase().trim())
+    async findCityById(id: string) {
+        const city = this.cities.find(city => city.id === id)
 
         if (!city) {
             return null
         }
 
-        return city.id
+        return city
     }
 
 }

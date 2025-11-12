@@ -21,11 +21,11 @@ describe("create city UseCase", () => {
     })
 
     it("Should be able to create a city", async () => {
-       await statesRepository.create({name: "Rio de Janeiro"})
+        await statesRepository.create({ name: "Rio de Janeiro", id: 'rd-id-01' })
 
-        const {city} = await sut.execute({
+        const { city } = await sut.execute({
             name: "Rio das Ostras",
-            stateName: "Rio de Janeiro"
+            stateId: "rd-id-01"
         })
 
         expect(city.id).toEqual(expect.any(String))

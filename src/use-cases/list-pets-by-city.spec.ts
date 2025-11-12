@@ -5,6 +5,7 @@ import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-sta
 import { randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
 import { ListPetsByItsCityUseCase } from "./list-pets-by-its-city-use-case";
+import { CityDoesNotExistsError } from "./errors/city-does-not-exists-error";
 
 describe('list pets by its city useCase', () => {
 
@@ -65,13 +66,13 @@ describe('list pets by its city useCase', () => {
         })
 
 
-        const { pets } = await sut.execute('Rio de Janeiro')
+        const { pets } = await sut.execute('rio-city-id')
 
         await expect(pets).toHaveLength(2)
 
     })
 
-    it('should not return any pets', async () => {
+    it('should return city does not exists error', async () => {
         statesRepository.create({ name: 'São Paulo', id: 'sp-state-id' })
         citiesRepository.create({ name: 'São Paulo', stateId: 'sp-state-id', id: 'sp-city-id' })
         ongsRepository.register({
@@ -111,7 +112,6 @@ describe('list pets by its city useCase', () => {
             created_at: new Date()
         })
 
-        const { pets } = await sut.execute('Rio de Janeiro')
-        await expect(pets).toHaveLength(0)
+        await expect(sut.execute(randomUUID())).rejects.toBeInstanceOf(CityDoesNotExistsError)
     })
 })

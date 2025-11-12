@@ -7,7 +7,7 @@ pet adoption api
 - [X] Deve ser possível cadastrar uma cidade;
 - [X] Deve ser possível cadastrar um estado;
 - [X] Deve ser possível filtrar pets por suas características;
-- [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade;
+- [X] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade;
 - [] Deve ser possível visualizar detalhes de um pet para adoção;
 - [] Deve ser possível se cadastrar como uma ONG;
 - [] Deve ser possível realizar login como uma ONG;

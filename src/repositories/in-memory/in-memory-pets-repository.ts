@@ -1,4 +1,4 @@
-import { Prisma, Pet } from "@prisma/client";
+import { Prisma, Pet, Ong } from "@prisma/client";
 import { PetsRepository } from "../pets-repository";
 import { randomUUID } from "crypto";
 
@@ -25,19 +25,18 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet
     }
 
-    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>) {
-
-        if (!Object.keys(petCharacteristics).length) {
-            return this.pets
-        }
-
+    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, ongs: Ong[]) {
         const pets = this.pets.filter((pet) => {
-            return Object.entries(petCharacteristics).every(([key, value]) => {
-                if (value === undefined || value === null) return true
-
-                return pet[key as keyof Pet] === value
-            })
+            for (const ong of ongs) {
+                if (ong.id === pet.ongId) {
+                    return Object.entries(petCharacteristics).every(([key, value]) => {
+                        if (value === undefined || value === null) return true
+                        return pet[key as keyof Pet] === value
+                    })
+                }
+            }
         })
+
 
         return pets
     }

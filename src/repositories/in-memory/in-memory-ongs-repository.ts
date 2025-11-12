@@ -38,7 +38,7 @@ export class InMemoryOngsRepository implements OngsRepository {
         return userAlreadyExists
     }
 
-    async fetchOngsAtCity(cityId: string) {
+    async fetchOngsByCityId(cityId: string) {
         const ongs = this.ongs.filter(ong => ong.cityId === cityId)
 
         if (!ongs) {

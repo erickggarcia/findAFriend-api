@@ -3,10 +3,11 @@ import { OngsRepository } from "@/repositories/ongs-repository";
 import { Ong } from "@prisma/client";
 import bcryptjs from "bcryptjs";
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
+import { CityDoesNotExistsError } from "./errors/city-does-not-exists-error";
 
 
 interface RegisterOngUseCaseRequest {
-    cityName: string;
+    cityId: string;
     photoUrl: string | null;
     name: string;
     socialReason: string;
@@ -24,28 +25,30 @@ interface RegisterOngUseCaseResponse {
 }
 
 export class RegisterOngUseCase {
-    constructor(private ongsRepository: OngsRepository, private citiesRepository: CitiesRepository) {}
+    constructor(private ongsRepository: OngsRepository, private citiesRepository: CitiesRepository) { }
 
-    async execute({photoUrl, name, socialReason, 
-        cnpj, whatsapp, email, password, address, 
-        zipcode, cityName, role}: RegisterOngUseCaseRequest): Promise<RegisterOngUseCaseResponse>  {
+    async execute({ photoUrl, name, socialReason,
+        cnpj, whatsapp, email, password, address,
+        zipcode, cityId, role }: RegisterOngUseCaseRequest): Promise<RegisterOngUseCaseResponse> {
 
         const userWithSameEmail = await this.ongsRepository.findByEmail(email)
 
-        if(userWithSameEmail) {
+        if (userWithSameEmail) {
             throw new Error("Email already in use.")
         }
 
-        const cityId = await this.citiesRepository.findCityIdByName(cityName)
+        const city = await this.citiesRepository.findCityById(cityId)
 
-        if(!cityId) {
-            throw new UserAlreadyExistsError()
+        if (!city) {
+
+            console.log("A cidade informada não existe")
+            throw new CityDoesNotExistsError()
         }
 
         const password_hash = await bcryptjs.hash(password, 6);
 
         const ong = await this.ongsRepository.register({
-            photoUrl, 
+            photoUrl,
             name,
             socialReason,
             cnpj,
@@ -58,6 +61,6 @@ export class RegisterOngUseCase {
             role: role ?? "MEMBER",
         });
 
-        return { ong }; 
+        return { ong };
     }
 }
