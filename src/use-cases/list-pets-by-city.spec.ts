@@ -21,6 +21,9 @@ describe('list pets by its city useCase', () => {
         ongsRepository = new InMemoryOngsRepository()
 
         sut = new ListPetsByItsCityUseCase(petsRepository, citiesRepository, ongsRepository)
+    })
+
+    it('should be able to list pets according to its city', async () => {
 
         statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
         citiesRepository.create({ name: 'Rio de Janeiro', stateId: 'rio-state-id', id: 'rio-city-id' })
@@ -36,11 +39,6 @@ describe('list pets by its city useCase', () => {
             whatsapp: '21999999999',
             zipcode: '2298292839023',
         })
-    })
-
-
-
-    it('should be able to list pets according to its city', async () => {
 
         petsRepository.register({
             age: 8,
@@ -71,5 +69,49 @@ describe('list pets by its city useCase', () => {
 
         await expect(pets).toHaveLength(2)
 
+    })
+
+    it('should not return any pets', async () => {
+        statesRepository.create({ name: 'São Paulo', id: 'sp-state-id' })
+        citiesRepository.create({ name: 'São Paulo', stateId: 'sp-state-id', id: 'sp-city-id' })
+        ongsRepository.register({
+            id: 'ong-01-id',
+            address: 'Rua x',
+            cityId: 'sp-city-id',
+            cnpj: '20892823878932',
+            email: 'example.com',
+            name: 'ong02',
+            socialReason: 'ong01ltda',
+            password_hash: '7td6dgydsagd7',
+            whatsapp: '21999999999',
+            zipcode: '2298292839023',
+        })
+
+        petsRepository.register({
+            age: 8,
+            breed: 'srd', color: 'black',
+            name: 'pipoca',
+            details: 'brave',
+            ongId: 'ong-01-id',
+            photoUrl: 'example.com.br',
+            size: 'SMALL',
+            id: randomUUID(),
+            created_at: new Date()
+        })
+
+        petsRepository.register({
+            age: 2,
+            breed: 'Golden', color: 'black',
+            name: 'Maia',
+            details: 'brave',
+            ongId: 'ong-01-id',
+            photoUrl: 'example.com.br',
+            size: 'BIG',
+            id: randomUUID(),
+            created_at: new Date()
+        })
+
+        const { pets } = await sut.execute('Rio de Janeiro')
+        await expect(pets).toHaveLength(0)
     })
 })
