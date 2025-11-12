@@ -7,21 +7,21 @@ export class InMemoryOngsRepository implements OngsRepository {
 
     async register(data: Prisma.OngUncheckedCreateInput) {
         const ong = {
-                id: data.id ?? randomUUID(),
-                photoUrl: data.photoUrl || null,
-                name:data.name,
-                socialReason: data.socialReason,
-                cnpj: data.cnpj,
-                whatsapp: data.whatsapp,
-                email: data.email,
-                password_hash: data.password_hash,
-                address: data.address,
-                zipcode: data.zipcode,
-                created_at: new Date(),
-                updated_at: null,
-                role: data.role ?? "MEMBER",
-                cityId: data.cityId,
-            }
+            id: data.id ?? randomUUID(),
+            photoUrl: data.photoUrl || null,
+            name: data.name,
+            socialReason: data.socialReason,
+            cnpj: data.cnpj,
+            whatsapp: data.whatsapp,
+            email: data.email,
+            password_hash: data.password_hash,
+            address: data.address,
+            zipcode: data.zipcode,
+            created_at: new Date(),
+            updated_at: null,
+            role: data.role ?? "MEMBER",
+            cityId: data.cityId,
+        }
 
         this.ongs.push(ong);
 
@@ -31,16 +31,20 @@ export class InMemoryOngsRepository implements OngsRepository {
     async findByEmail(email: string) {
         const userAlreadyExists = this.ongs.find(ong => ong.email === email)
 
-       if(!userAlreadyExists) { 
-        return null
-       }
+        if (!userAlreadyExists) {
+            return null
+        }
 
-       return userAlreadyExists
-     }
+        return userAlreadyExists
+    }
 
-     async fetchOngsAtCity(cityId: string) {
+    async fetchOngsAtCity(cityId: string) {
         const ongs = this.ongs.filter(ong => ong.cityId === cityId)
 
-       return ongs
-     }
+        if (!ongs) {
+            return []
+        }
+
+        return ongs
+    }
 }

@@ -41,4 +41,23 @@ export class InMemoryPetsRepository implements PetsRepository {
 
         return pets
     }
+
+    async fetchPetsByCity(ongsIds: string[]) {
+
+        if (!ongsIds.length) {
+            return []
+        }
+        const petsFoundAtCity = []
+
+        for (let i = 0; i < this.pets.length; i++) {
+            if (ongsIds.includes(this.pets[i].ongId)) {
+                petsFoundAtCity.push(this.pets[i])
+            } else {
+                continue
+            }
+        }
+
+        return petsFoundAtCity
+
+    }
 }
