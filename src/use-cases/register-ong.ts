@@ -29,18 +29,17 @@ export class RegisterOngUseCase {
 
     async execute({ photoUrl, name, socialReason,
         cnpj, whatsapp, email, password, address,
-        zipcode, cityId, role }: RegisterOngUseCaseRequest): Promise<RegisterOngUseCaseResponse> {
+        zipcode, cityId }: RegisterOngUseCaseRequest): Promise<RegisterOngUseCaseResponse> {
 
         const userWithSameEmail = await this.ongsRepository.findByEmail(email)
 
         if (userWithSameEmail) {
-            throw new Error("Email already in use.")
+            throw new UserAlreadyExistsError()
         }
 
         const city = await this.citiesRepository.findCityById(cityId)
 
         if (!city) {
-
             console.log("A cidade informada não existe")
             throw new CityDoesNotExistsError()
         }
@@ -58,7 +57,6 @@ export class RegisterOngUseCase {
             address,
             zipcode,
             cityId,
-            role: role ?? "MEMBER",
         });
 
         return { ong };

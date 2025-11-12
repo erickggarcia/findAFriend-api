@@ -9,8 +9,8 @@ pet adoption api
 - [X] Deve ser possível filtrar pets por suas características;
 - [X] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade;
 - [X] Deve ser possível visualizar detalhes de um pet para adoção;
-- [] Deve ser possível se cadastrar como uma ONG;
-- [] Deve ser possível realizar login como uma ONG;
+- [X] Deve ser possível se cadastrar como uma ONG;
+- [X] Deve ser possível realizar login como uma ONG;
 
 ## RNs (Regras de negócio)
 - [X] Para listar os pets, obrigatoriamente precisamos informar a cidade;
