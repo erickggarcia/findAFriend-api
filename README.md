@@ -14,9 +14,9 @@ pet adoption api
 
 ## RNs (Regras de negócio)
 - [X] Para listar os pets, obrigatoriamente precisamos informar a cidade;
-- [] Uma ONG precisa ter um endereço e um número de WhatsApp;
-- [] Um pet deve estar ligado a uma ONG;
-- [] O usuário que quer adotar, entrará em contato com a ONG via WhatsApp;
+- [X] Uma ONG precisa ter um endereço e um número de WhatsApp;
+- [X] Um pet deve estar ligado a uma ONG;
+- [X] O usuário que quer adotar, entrará em contato com a ONG via WhatsApp;
 - [] Todos os filtros, além da cidade, são opcionais;
 - [] Para uma ONG acessar a aplicação como admin, ela precisa estar logada;
 

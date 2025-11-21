@@ -27,36 +27,48 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, ongs: Ong[]) {
         const pets = this.pets.filter((pet) => {
-            for (const ong of ongs) {
-                if (ong.id === pet.ongId) {
-                    return Object.entries(petCharacteristics).every(([key, value]) => {
-                        if (value === undefined || value === null) return true
-                        return pet[key as keyof Pet] === value
-                    })
-                }
-            }
-        })
+            const matches = Object.entries(petCharacteristics).every(([key, value]) => {
+                if (value === undefined || value === null) return true
+                return pet[key as keyof Pet] === value
+            })
 
+            return matches
+        })
+            .map((pet) => {
+                const ong = ongs.find(ong => ong.id === pet.ongId)!
+
+                return {
+                    ...pet,
+                    whatsapp: ong.whatsapp,
+                    address: ong.address,
+                    zipcode: ong.zipcode,
+                }
+            })
 
         return pets
+
     }
 
-    async fetchPetsByCity(ongsIds: string[]) {
+    async fetchPetsByCity(ongs: Ong[]) {
 
-        if (!ongsIds.length) {
+        if (!ongs.length) {
             return []
         }
-        const petsFoundAtCity = []
+        const petsFoundAtCity: (Pet & Partial<Ong>)[] = []
 
         for (let i = 0; i < this.pets.length; i++) {
-            if (ongsIds.includes(this.pets[i].ongId)) {
-                petsFoundAtCity.push(this.pets[i])
-            } else {
-                continue
+            const matchingOng = ongs.find(ong => ong.id === this.pets[i].ongId)
+            if (matchingOng) {
+                const petsAdoptionInformation = {
+                    ... this.pets[i],
+                    whatsapp: matchingOng.whatsapp,
+                    address: matchingOng.address,
+                    zipcode: matchingOng.zipcode
+                }
+
+                petsFoundAtCity.push(petsAdoptionInformation)
             }
         }
-
         return petsFoundAtCity
-
     }
 }

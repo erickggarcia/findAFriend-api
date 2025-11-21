@@ -47,4 +47,16 @@ export class InMemoryOngsRepository implements OngsRepository {
 
         return ongs
     }
+
+    async getOngInformationById(ongId: string) {
+        const ong = this.ongs.find((ong) => ong.id === ongId)
+
+        if (!ong) {
+            return null
+        }
+
+        return ong
+
+    }
+
 }

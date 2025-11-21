@@ -19,17 +19,15 @@ export class ListPetsByItsCityUseCase {
         }
         const ongs = await this.ongsRepository.fetchOngsByCityId(cityId)
 
-        if (ongs.length > 0) {
-            const ongsId = ongs.map((ong) => {
-                return ong.id
-            })
-            const pets = await this.petsRepository.fetchPetsByCity(ongsId)
+        if (!ongs.length) {
             return {
-                pets
+                pets: []
             }
         }
+
+        const pets = await this.petsRepository.fetchPetsByCity(ongs)
         return {
-            pets: []
+            pets
         }
     }
 }
