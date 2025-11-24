@@ -2,8 +2,6 @@ import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-
 import { randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
 import { FilterPetsByItsCharacteristicsUseCase } from "./filter-pets-by-its-characteristics-use-case";
-import { CitiesRepository } from "@/repositories/cities-repository";
-import { OngsRepository } from "@/repositories/ongs-repository";
 import { InMemoryCitiesRepository } from "@/repositories/in-memory/in-memory-cities-repository";
 import { InMemoryOngsRepository } from "@/repositories/in-memory/in-memory-ongs-repository";
 import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-states-repository";
@@ -113,7 +111,6 @@ describe('filter pets by its characteristics useCase', () => {
         }
 
         const { pets } = await sut.execute({ size: 'BIG' }, 'rio-city-id', 2)
-        console.log("petssssssssssssss ", pets)
 
         expect(pets).toHaveLength(20)
 
