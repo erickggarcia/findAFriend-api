@@ -1,8 +1,10 @@
 import { Prisma, Pet, Ong } from "@prisma/client";
 import { PetsRepository } from "../pets-repository";
 import { randomUUID } from "crypto";
+import { InMemoryOngsRepository } from "./in-memory-ongs-repository";
 
 export class InMemoryPetsRepository implements PetsRepository {
+    constructor(private readonly ongsRepository: InMemoryOngsRepository) {}
     private pets: Pet[] = []
 
     async register(data: Prisma.PetUncheckedCreateInput) {
@@ -25,8 +27,12 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet
     }
 
-    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, ongs: Ong[], page: number = 1) {
+    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, cityId: string, page: number = 1) {
+        const ongs = await this.ongsRepository.fetchOngsByCityId(cityId)
 
+        if (!ongs.length) {
+            return []
+        }
 
         const pets = this.pets.filter((pet) => {
             const matches = Object.entries(petCharacteristics).every(([key, value]) => {
@@ -52,8 +58,9 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     }
 
-    async fetchPetsByCity(ongs: Ong[], page: number = 1) {
-
+    async fetchPetsByCity(cityId: string, page: number = 1) {
+        const ongs = await this.ongsRepository.fetchOngsByCityId(cityId)
+        
         if (!ongs.length) {
             return []
         }

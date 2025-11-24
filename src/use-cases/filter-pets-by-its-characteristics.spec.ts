@@ -16,9 +16,9 @@ describe('filter pets by its characteristics useCase', () => {
     let statesRepository: InMemoryStatesRepository
 
     beforeEach(() => {
-        petsRepository = new InMemoryPetsRepository()
         citiesRepository = new InMemoryCitiesRepository()
         ongsRepository = new InMemoryOngsRepository()
+        petsRepository = new InMemoryPetsRepository(ongsRepository)
         statesRepository = new InMemoryStatesRepository()
 
         sut = new FilterPetsByItsCharacteristicsUseCase(petsRepository, citiesRepository, ongsRepository)
