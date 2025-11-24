@@ -24,7 +24,7 @@ export class FilterPetsByItsCharacteristicsUseCase {
         private readonly ongsRepository: OngsRepository
     ) { }
 
-    async execute(data: FilterPetsByItsCharacteristicsUseCaseRequest, cityId: string): Promise<FilterPetsByItsCharacteristicsUseCaseResponse> {
+    async execute(data: FilterPetsByItsCharacteristicsUseCaseRequest, cityId: string, page?: number): Promise<FilterPetsByItsCharacteristicsUseCaseResponse> {
 
         const city = await this.citiesRepository.findCityById(cityId)
 
@@ -40,7 +40,7 @@ export class FilterPetsByItsCharacteristicsUseCase {
             throw new PetsDoesNotExistsError()
         }
 
-        const pets = await this.petsRepository.filterPetsByCharacteristics(data, ongs)
+        const pets = await this.petsRepository.filterPetsByCharacteristics(data, ongs, page)
 
         return {
             pets

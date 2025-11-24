@@ -17,11 +17,11 @@ pet adoption api
 - [X] Uma ONG precisa ter um endereço e um número de WhatsApp;
 - [X] Um pet deve estar ligado a uma ONG;
 - [X] O usuário que quer adotar, entrará em contato com a ONG via WhatsApp;
-- [] Todos os filtros, além da cidade, são opcionais;
+- [X] Todos os filtros, além da cidade, são opcionais;
 - [] Para uma ONG acessar a aplicação como admin, ela precisa estar logada;
 
 ## RNFs (Requisitos não funcionais)
-- [] A senha do usuário da ONG (admin) precisa estar criptografada;
+- [X] A senha do usuário da ONG (admin) precisa estar criptografada;
 - [] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [] Todas listas de dados precisam estar páginadas com 20 itens por página;
 - [] O usuário da ONG (admin) deve ser identificado por um JWT (json web token);

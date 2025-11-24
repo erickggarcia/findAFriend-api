@@ -80,4 +80,42 @@ describe('filter pets by its characteristics useCase', () => {
             ])
         )
     })
+
+    it("should return max os 20 items", async () => {
+
+        statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
+        citiesRepository.create({ name: 'Rio de Janeiro', stateId: 'rio-state-id', id: 'rio-city-id' })
+        ongsRepository.register({
+            id: 'ong-01-id',
+            address: 'Rua x',
+            cityId: 'rio-city-id',
+            cnpj: '20892823878932',
+            email: 'example.com',
+            name: 'ong01',
+            socialReason: 'ong01ltda',
+            password_hash: '7td6dgydsagd7',
+            whatsapp: '21999999999',
+            zipcode: '2298292839023',
+        })
+
+        for (let i = 0; i < 40; i++) {
+            petsRepository.register({
+                age: 8,
+                breed: 'srd', color: 'black',
+                name: 'pipoca',
+                details: 'brave',
+                ongId: 'ong-01-id',
+                photoUrl: 'example.com.br',
+                size: 'BIG',
+                id: `number ${i}`,
+                created_at: new Date()
+            })
+        }
+
+        const { pets } = await sut.execute({ size: 'BIG' }, 'rio-city-id', 2)
+        console.log("petssssssssssssss ", pets)
+
+        expect(pets).toHaveLength(20)
+
+    })
 })

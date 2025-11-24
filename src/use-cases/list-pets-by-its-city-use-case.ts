@@ -10,7 +10,7 @@ export class ListPetsByItsCityUseCase {
         private readonly ongsRepository: OngsRepository
     ) { }
 
-    async execute(cityId: string) {
+    async execute(cityId: string, page?: number) {
         const city = await this.citiesRepository.findCityById(cityId)
 
         if (!city) {
@@ -25,7 +25,7 @@ export class ListPetsByItsCityUseCase {
             }
         }
 
-        const pets = await this.petsRepository.fetchPetsByCity(ongs)
+        const pets = await this.petsRepository.fetchPetsByCity(ongs, page)
         return {
             pets
         }

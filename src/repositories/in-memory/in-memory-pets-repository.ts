@@ -25,7 +25,9 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet
     }
 
-    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, ongs: Ong[]) {
+    async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, ongs: Ong[], page: number = 1) {
+
+
         const pets = this.pets.filter((pet) => {
             const matches = Object.entries(petCharacteristics).every(([key, value]) => {
                 if (value === undefined || value === null) return true
@@ -43,13 +45,14 @@ export class InMemoryPetsRepository implements PetsRepository {
                     address: ong.address,
                     zipcode: ong.zipcode,
                 }
-            })
+            }).slice((page - 1) * 20, page * 20)
+
 
         return pets
 
     }
 
-    async fetchPetsByCity(ongs: Ong[]) {
+    async fetchPetsByCity(ongs: Ong[], page: number = 1) {
 
         if (!ongs.length) {
             return []
@@ -69,6 +72,6 @@ export class InMemoryPetsRepository implements PetsRepository {
                 petsFoundAtCity.push(petsAdoptionInformation)
             }
         }
-        return petsFoundAtCity
+        return petsFoundAtCity.slice((page - 1) * 20, page * 20)
     }
 }
