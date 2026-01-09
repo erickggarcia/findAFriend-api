@@ -33,14 +33,7 @@ export class FilterPetsByItsCharacteristicsUseCase {
             throw new CityDoesNotExistsError()
         }
 
-        const ongs = await this.ongsRepository.fetchOngsByCityId(city.id)
-
-        if (!ongs.length) {
-            console.log("Não existem pets cadastrados nessa cidade")
-            throw new PetsDoesNotExistsError()
-        }
-
-        const pets = await this.petsRepository.filterPetsByCharacteristics(data, ongs, page)
+        const pets = await this.petsRepository.filterPetsByCharacteristics(data, cityId, page)
 
         return {
             pets
