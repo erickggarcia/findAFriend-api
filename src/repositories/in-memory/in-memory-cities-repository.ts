@@ -29,10 +29,10 @@ export class InMemoryCitiesRepository implements CitiesRepository {
         return city
     }
 
-    async findCitiesByStateId(id: string) {
+    async findCitiesByStateId(stateId: string) {
 
         const filteredCities = this.cities.filter((city) => {
-            return city.stateId === id
+            return city.stateId === stateId
         })
 
         return filteredCities

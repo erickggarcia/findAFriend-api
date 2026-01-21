@@ -3,5 +3,5 @@ import { City, Prisma } from "@prisma/client";
 export interface CitiesRepository {
     create(data: Prisma.CityUncheckedCreateInput): Promise<City>;
     findCityById(id: string): Promise<City | null>;
-    findCitiesByStateId(id: string): Promise<City[] | []>
+    findCitiesByStateId(stateId: string): Promise<City[] | []>
 }

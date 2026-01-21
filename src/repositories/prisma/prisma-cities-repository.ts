@@ -23,8 +23,12 @@ export class PrismaCitiesRepository implements CitiesRepository {
     }
 
 
-    async fetchAllCities(id: string): Promise<City[] | []> {
-        const cities = await prisma.city.findMany()
+    async findCitiesByStateId(stateId: string): Promise<City[] | []> {
+        const cities = await prisma.city.findMany({
+            where: {
+                stateId
+            }
+        })
         return cities
     }
 
