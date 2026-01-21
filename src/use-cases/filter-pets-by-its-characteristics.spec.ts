@@ -19,7 +19,7 @@ describe('filter pets by its characteristics useCase', () => {
         petsRepository = new InMemoryPetsRepository(ongsRepository)
         statesRepository = new InMemoryStatesRepository()
 
-        sut = new FilterPetsByItsCharacteristicsUseCase(petsRepository, citiesRepository, ongsRepository)
+        sut = new FilterPetsByItsCharacteristicsUseCase(petsRepository, citiesRepository)
     })
 
 

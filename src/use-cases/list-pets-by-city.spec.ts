@@ -16,10 +16,10 @@ describe('list pets by its city useCase', () => {
     let ongsRepository: InMemoryOngsRepository
 
     beforeEach(() => {
-        petsRepository = new InMemoryPetsRepository(ongsRepository)
         statesRepository = new InMemoryStatesRepository()
         citiesRepository = new InMemoryCitiesRepository()
         ongsRepository = new InMemoryOngsRepository()
+        petsRepository = new InMemoryPetsRepository(ongsRepository)
 
         sut = new ListPetsByItsCityUseCase(petsRepository, citiesRepository)
     })

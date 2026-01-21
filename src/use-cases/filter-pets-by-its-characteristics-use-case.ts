@@ -2,8 +2,6 @@ import { CitiesRepository } from "@/repositories/cities-repository";
 import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet } from '@prisma/client'
 import { CityDoesNotExistsError } from "./errors/city-does-not-exists-error";
-import { OngsRepository } from "@/repositories/ongs-repository";
-import { PetsDoesNotExistsError } from "./errors/pets-does-not-exists-error";
 
 interface FilterPetsByItsCharacteristicsUseCaseRequest {
     name?: string;
@@ -21,7 +19,6 @@ export class FilterPetsByItsCharacteristicsUseCase {
     constructor(
         private readonly petsRepository: PetsRepository,
         private readonly citiesRepository: CitiesRepository,
-        private readonly ongsRepository: OngsRepository
     ) { }
 
     async execute(data: FilterPetsByItsCharacteristicsUseCaseRequest, cityId: string, page?: number): Promise<FilterPetsByItsCharacteristicsUseCaseResponse> {

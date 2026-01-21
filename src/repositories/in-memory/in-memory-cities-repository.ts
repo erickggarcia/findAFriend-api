@@ -29,8 +29,13 @@ export class InMemoryCitiesRepository implements CitiesRepository {
         return city
     }
 
-    async fetchAllCities() {
-        return this.cities
+    async findCitiesByStateId(id: string) {
+
+        const filteredCities = this.cities.filter((city) => {
+            return city.stateId === id
+        })
+
+        return filteredCities
     }
 
 }

@@ -6,8 +6,6 @@ let statesRepository: InMemoryStatesRepository
 let sut: CreateStateUseCase
 
 describe("register state use-case", () => {
-
-
     beforeEach(() => {
         statesRepository = new InMemoryStatesRepository()
         sut = new CreateStateUseCase(statesRepository)
@@ -20,4 +18,4 @@ describe("register state use-case", () => {
 
         expect(state.id).toEqual(expect.any(String))
     })
- })
+})

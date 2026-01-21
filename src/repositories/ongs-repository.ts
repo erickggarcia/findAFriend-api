@@ -4,5 +4,4 @@ export interface OngsRepository {
     register(data: Prisma.OngUncheckedCreateInput): Promise<Ong>
     findByEmail(email: string): Promise<Ong | null>
     fetchOngsByCityId(cityId: string): Promise<Ong[]>
-    getOngInformationById(ongId: string): Promise<Ong | null>
 }
