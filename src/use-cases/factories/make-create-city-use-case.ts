@@ -1,11 +1,11 @@
-import { InMemoryCitiesRepository } from "@/repositories/in-memory/in-memory-cities-repository";
+import { PrismaStatesRepository } from "@/repositories/prisma/prisma-states-repository";
 import { CreateCityUseCase } from "../create-city";
-import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-states-repository";
+import { PrismaCitiesRepository } from "@/repositories/prisma/prisma-cities-repository";
 
 export function makeCreateCityUseCase() {
-    const createCityRepository = new InMemoryCitiesRepository();
-    const createStateRepository = new InMemoryStatesRepository();
-    const useCase = new CreateCityUseCase(createCityRepository, createStateRepository);
+    const citiesRepository = new PrismaCitiesRepository();
+    const statesRepository = new PrismaStatesRepository();
+    const useCase = new CreateCityUseCase(citiesRepository, statesRepository);
 
     return useCase;
 

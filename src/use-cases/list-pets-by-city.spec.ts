@@ -66,7 +66,7 @@ describe('list pets by its city useCase', () => {
         })
 
 
-        const { pets } = await sut.execute('rio-city-id')
+        const { pets } = await sut.execute({ cityId: 'rio-city-id' })
 
         await expect(pets).toHaveLength(2)
 
@@ -112,6 +112,6 @@ describe('list pets by its city useCase', () => {
             created_at: new Date()
         })
 
-        await expect(sut.execute(randomUUID())).rejects.toBeInstanceOf(CityDoesNotExistsError)
+        await expect(sut.execute({ cityId: randomUUID() })).rejects.toBeInstanceOf(CityDoesNotExistsError)
     })
 })

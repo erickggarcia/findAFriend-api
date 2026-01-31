@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { InMemoryOngsRepository } from "./repositories/in-memory/in-memory-ongs-repository";
-import { FetchOngsByCityIdUseCase } from "./use-cases/fetch-ongs-by-city-id-use-case";
-import { InMemoryStatesRepository } from "./repositories/in-memory/in-memory-states-repository";
-import { InMemoryCitiesRepository } from "./repositories/in-memory/in-memory-cities-repository";
+import { FetchOngsByCityIdUseCase } from "./fetch-ongs-by-city-id-use-case";
+import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-states-repository";
+import { InMemoryCitiesRepository } from "@/repositories/in-memory/in-memory-cities-repository";
+import { InMemoryOngsRepository } from "@/repositories/in-memory/in-memory-ongs-repository";
 
 let statesRepository: InMemoryStatesRepository
 let citiesRepository: InMemoryCitiesRepository

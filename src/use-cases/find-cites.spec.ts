@@ -1,15 +1,15 @@
 
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryCitiesRepository } from "@/repositories/in-memory/in-memory-cities-repository";
-import { FindCitiesByStateIdUseCase } from "./find-cities-by-stateId";
+import { FindCitiesUseCase } from "./find-cities-use-case";
 
 describe('filter pets by its characteristics useCase', () => {
-    let sut: FindCitiesByStateIdUseCase
+    let sut: FindCitiesUseCase
     let citiesRepository: InMemoryCitiesRepository
 
     beforeEach(() => {
         citiesRepository = new InMemoryCitiesRepository()
-        sut = new FindCitiesByStateIdUseCase(citiesRepository)
+        sut = new FindCitiesUseCase(citiesRepository)
     })
 
 
@@ -19,7 +19,7 @@ describe('filter pets by its characteristics useCase', () => {
         citiesRepository.create({ name: 'Cabo Frio', id: 'cabo-frio-city-id', stateId: 'rio-state-id' })
         citiesRepository.create({ name: 'São Paulo', id: 'sp-city-id', stateId: 'sp-state-id' })
 
-        const { cities } = await sut.execute('rio-state-id')
+        const { cities } = await sut.execute({ stateId: 'rio-state-id' })
 
         await expect(cities).toHaveLength(2)
     })

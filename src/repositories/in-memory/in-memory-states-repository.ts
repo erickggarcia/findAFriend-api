@@ -21,7 +21,6 @@ export class InMemoryStatesRepository implements StatesRepository {
         const state = this.states.find(state => state.id === id)
 
         if (!state) {
-            console.log("State not found");
             return null
         }
 
