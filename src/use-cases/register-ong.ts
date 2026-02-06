@@ -17,7 +17,7 @@ interface RegisterOngUseCaseRequest {
     password: string;
     address: string;
     zipcode: string;
-    role: "MEMBER" | "ADMIN";
+    role?: "MEMBER" | "ADMIN";
 }
 
 interface RegisterOngUseCaseResponse {
