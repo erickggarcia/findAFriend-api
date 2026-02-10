@@ -3,22 +3,22 @@ import { PetsRepository } from "@/repositories/pets-repository";
 import { CityDoesNotExistsError } from "./errors/city-does-not-exists-error";
 import { Pet } from "@prisma/client";
 
-interface ListPetsByItsCityRequest {
+interface FetchPetsByCityRequest {
     cityId: string
     page?: number
 }
 
-interface ListPetsByItsCityResponse {
+interface FetchPetsByCityResponse {
     pets: Pet[]
 }
 
-export class ListPetsByItsCityUseCase {
+export class FetchPetsByCityUseCase {
     constructor(
         private readonly petsRepository: PetsRepository,
         private readonly citiesRepository: CitiesRepository,
     ) { }
 
-    async execute(data: ListPetsByItsCityRequest): Promise<ListPetsByItsCityResponse> {
+    async execute(data: FetchPetsByCityRequest): Promise<FetchPetsByCityResponse> {
         const { cityId, page } = data
         const city = await this.citiesRepository.findCityById(cityId)
 

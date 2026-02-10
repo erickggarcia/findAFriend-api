@@ -9,6 +9,8 @@ interface FilterPetsByItsCharacteristicsUseCaseRequest {
     color?: string;
     age?: number;
     size?: 'BIG' | 'MEDIUM' | 'SMALL';
+    cityId: string,
+    page?: number;
 }
 
 interface FilterPetsByItsCharacteristicsUseCaseResponse {
@@ -21,7 +23,8 @@ export class FilterPetsByItsCharacteristicsUseCase {
         private readonly citiesRepository: CitiesRepository,
     ) { }
 
-    async execute(data: FilterPetsByItsCharacteristicsUseCaseRequest, cityId: string, page?: number): Promise<FilterPetsByItsCharacteristicsUseCaseResponse> {
+    async execute(data: FilterPetsByItsCharacteristicsUseCaseRequest): Promise<FilterPetsByItsCharacteristicsUseCaseResponse> {
+        const { cityId, page, ...characteristics } = data
 
         const city = await this.citiesRepository.findCityById(cityId)
 
@@ -30,7 +33,7 @@ export class FilterPetsByItsCharacteristicsUseCase {
             throw new CityDoesNotExistsError()
         }
 
-        const pets = await this.petsRepository.filterPetsByCharacteristics(data, cityId, page)
+        const pets = await this.petsRepository.filterPetsByCharacteristics(characteristics, cityId, page)
 
         return {
             pets

@@ -21,15 +21,11 @@ export class PrismaOngsRepository implements OngsRepository {
         return ong
     }
 
-    async fetchOngsByCityId(cityId: string, page: number = 1): Promise<Ong[]> {
-        const take = 20
-        const skip = (page - 1) * take
+    async fetchOngsByCityId(cityId: string): Promise<Ong[]> {
         const ongs = await prisma.ong.findMany({
             where: {
                 cityId,
             },
-            take,
-            skip
         })
 
         return ongs

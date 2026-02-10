@@ -66,7 +66,7 @@ describe('filter pets by its characteristics useCase', () => {
             created_at: new Date()
         })
 
-        const { pets } = await sut.execute({ size: 'BIG' }, 'rio-city-id')
+        const { pets } = await sut.execute({ size: 'BIG', cityId: 'rio-city-id' })
 
         expect(pets).toEqual(
             expect.arrayContaining([
@@ -110,7 +110,7 @@ describe('filter pets by its characteristics useCase', () => {
             })
         }
 
-        const { pets } = await sut.execute({ size: 'BIG' }, 'rio-city-id', 2)
+        const { pets } = await sut.execute({ size: 'BIG', cityId: 'rio-city-id', page: 2 })
 
         expect(pets).toHaveLength(20)
 

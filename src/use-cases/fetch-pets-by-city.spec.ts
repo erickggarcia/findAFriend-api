@@ -4,12 +4,12 @@ import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-
 import { InMemoryStatesRepository } from "@/repositories/in-memory/in-memory-states-repository";
 import { randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
-import { ListPetsByItsCityUseCase } from "./list-pets-by-its-city-use-case";
+import { FetchPetsByCityUseCase } from "./fetch-pets-by-its-city-use-case";
 import { CityDoesNotExistsError } from "./errors/city-does-not-exists-error";
 
-describe('list pets by its city useCase', () => {
+describe('fetch pets by its city useCase', () => {
 
-    let sut: ListPetsByItsCityUseCase
+    let sut: FetchPetsByCityUseCase
     let statesRepository: InMemoryStatesRepository
     let citiesRepository: InMemoryCitiesRepository
     let petsRepository: InMemoryPetsRepository
@@ -21,7 +21,7 @@ describe('list pets by its city useCase', () => {
         ongsRepository = new InMemoryOngsRepository()
         petsRepository = new InMemoryPetsRepository(ongsRepository)
 
-        sut = new ListPetsByItsCityUseCase(petsRepository, citiesRepository)
+        sut = new FetchPetsByCityUseCase(petsRepository, citiesRepository)
     })
 
     it('should be able to list pets according to its city', async () => {
