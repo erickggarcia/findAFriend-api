@@ -1,32 +1,21 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('ADMIN');
 
-  - You are about to drop the `City` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Ong` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Pet` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `State` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "Size" AS ENUM ('BIG', 'MEDIUM', 'SMALL');
 
-*/
--- DropForeignKey
-ALTER TABLE "City" DROP CONSTRAINT "City_state_id_fkey";
+-- CreateTable
+CREATE TABLE "users" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password_hash" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'ADMIN',
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
 
--- DropForeignKey
-ALTER TABLE "Ong" DROP CONSTRAINT "Ong_city_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "Pet" DROP CONSTRAINT "Pet_ong_id_fkey";
-
--- DropTable
-DROP TABLE "City";
-
--- DropTable
-DROP TABLE "Ong";
-
--- DropTable
-DROP TABLE "Pet";
-
--- DropTable
-DROP TABLE "State";
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "pets" (
@@ -36,10 +25,10 @@ CREATE TABLE "pets" (
     "breed" TEXT NOT NULL,
     "color" TEXT NOT NULL,
     "age" INTEGER NOT NULL,
-    "size" TEXT NOT NULL,
+    "size" "Size" NOT NULL,
     "details" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3),
     "ong_id" TEXT NOT NULL,
 
     CONSTRAINT "pets_pkey" PRIMARY KEY ("id")
@@ -48,7 +37,7 @@ CREATE TABLE "pets" (
 -- CreateTable
 CREATE TABLE "ongs" (
     "id" TEXT NOT NULL,
-    "photo_url" TEXT NOT NULL,
+    "photo_url" TEXT,
     "name" TEXT NOT NULL,
     "social_reason" TEXT NOT NULL,
     "cnpj" TEXT NOT NULL,
@@ -58,8 +47,7 @@ CREATE TABLE "ongs" (
     "address" TEXT NOT NULL,
     "zipcode" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "role" "Role" NOT NULL DEFAULT 'MEMBER',
+    "updated_at" TIMESTAMP(3),
     "city_id" TEXT NOT NULL,
 
     CONSTRAINT "ongs_pkey" PRIMARY KEY ("id")
@@ -81,6 +69,9 @@ CREATE TABLE "states" (
 
     CONSTRAINT "states_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ongs_cnpj_key" ON "ongs"("cnpj");

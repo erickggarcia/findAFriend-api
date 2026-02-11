@@ -10,17 +10,30 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
   ADMIN
-  MEMBER
 }
 
 enum Size {
   BIG
   MEDIUM
   SMALL
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  role          Role     @default(ADMIN)
+  created_at    DateTime @default(now())
+
+  updated_at DateTime?
+
+  @@map("users")
 }
 
 model Pet {
@@ -57,7 +70,6 @@ model Ong {
 
   Pets Pet[]
 
-  role   Role   @default(MEMBER)
   city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
   cityId String @map("city_id")
 

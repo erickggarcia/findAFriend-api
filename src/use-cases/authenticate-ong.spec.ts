@@ -27,7 +27,6 @@ describe('authenticate useCase', () => {
             address: "123 Test St",
             zipcode: "12345-678",
             cityId: "sp-city-1",
-            role: "ADMIN",
         })
 
         const { ong } = await sut.execute({ email: 'ongtest@example.com', password: '123456' })
