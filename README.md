@@ -11,7 +11,6 @@ pet adoption api
 - [X] Deve ser possível visualizar detalhes de um pet para adoção;
 - [X] Deve ser possível se cadastrar como uma ONG;
 - [X] Deve ser possível realizar login como uma ONG;
-- [] Deve ser possível realizar login como ADMIN;
 
 ## RNs (Regras de negócio)
 - [X] Para listar os pets, obrigatoriamente precisamos informar a cidade;
@@ -22,7 +21,7 @@ pet adoption api
 - [] Para uma ONG cadastrar pets, ela precisa estar logada;
 
 ## RNFs (Requisitos não funcionais)
-- [] A senha dos usuários da ONG e ADMIN precisam estar criptografadas;
-- [] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
-- [] Todas listas de dados precisam estar páginadas com 20 itens por página;
+- [X] A senha dos usuários da ONG e ADMIN precisam estar criptografadas;
+- [X] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
+- [X] Todas listas de dados precisam estar páginadas com 20 itens por página;
 - [] O usuário da ONG e ADMIN deve ser identificado por um JWT (json web token);
