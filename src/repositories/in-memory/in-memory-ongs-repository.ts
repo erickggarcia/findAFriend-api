@@ -19,7 +19,6 @@ export class InMemoryOngsRepository implements OngsRepository {
             zipcode: data.zipcode,
             created_at: new Date(),
             updated_at: null,
-            role: data.role ?? "MEMBER",
             cityId: data.cityId,
         }
 
