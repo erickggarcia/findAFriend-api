@@ -33,7 +33,6 @@ describe('register ong useCase', () => {
             address: "123 Test St",
             zipcode: "12345-678",
             cityId: "sp-city-1",
-            role: "ADMIN",
         })
 
         expect(ong.id).toEqual(expect.any(String))
