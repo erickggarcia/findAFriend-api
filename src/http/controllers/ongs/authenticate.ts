@@ -15,6 +15,26 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 
     const { ong } = await registerOngUseCase.execute({ email, password })
 
-    return reply.status(201).send({ message: 'user successfully logged in' })
+    const token = await reply.jwtSign({
+        sign: {
+            sub: ong.id,
+        }
+    })
 
+    const refreshToken = await reply.jwtSign({
+        sign: {
+            sub: ong.id,
+        },
+    }, {
+        expiresIn: '7d',
+    })
+
+    return reply
+        .setCookie('refreshToken', refreshToken, {
+            path: '/',
+            secure: true,
+            sameSite: true,
+            httpOnly: true,
+        })
+        .status(200).send({ token })
 }
