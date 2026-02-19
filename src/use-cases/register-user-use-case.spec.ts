@@ -1,6 +1,6 @@
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 import { describe, it, beforeEach, expect } from "vitest";
-import { RegisterUserUseCase } from "./register-admin-use-case";
+import { RegisterUserUseCase } from "./register-user-use-case";
 
 describe('register user useCase', () => {
 

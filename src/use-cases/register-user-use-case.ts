@@ -9,7 +9,7 @@ interface RegisterUserUseCaseRequest {
     lastName: string
     email: string
     password: string
-    role?: 'ADMIN'
+    role?: 'ADMIN' | 'MEMBER'
 }
 
 interface RegisterUserUseCaseResponse {
