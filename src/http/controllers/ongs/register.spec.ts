@@ -44,7 +44,6 @@ describe('register ong e2e', () => {
                 photoUrl: 'null'
             })
 
-        console.log('4444444444444444444444')
         expect(response.statusCode).toEqual(201)
     })
 })
