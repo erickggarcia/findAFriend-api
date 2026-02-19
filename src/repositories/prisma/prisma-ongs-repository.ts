@@ -31,4 +31,16 @@ export class PrismaOngsRepository implements OngsRepository {
         return ongs
     }
 
+    async findById(id: string): Promise<Ong | null> {
+        const ong = await prisma.ong.findUnique({
+            where: {
+                id
+            }
+        })
+
+        if (!ong) return null
+
+        return ong
+    }
+
 }
