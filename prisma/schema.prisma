@@ -91,6 +91,7 @@ model City {
 model State {
   id   String @id @default(uuid())
   name String
+  uf   String
   city City[]
 
   @@map("states")

@@ -21,7 +21,7 @@ describe("create city UseCase", () => {
     })
 
     it("Should be able to create a city", async () => {
-        await statesRepository.create({ name: "Rio de Janeiro", id: 'rd-id-01' })
+        await statesRepository.create({ name: "Rio de Janeiro", id: 'rd-id-01', uf: "RJ" })
 
         const { city } = await sut.execute({
             name: "Rio das Ostras",

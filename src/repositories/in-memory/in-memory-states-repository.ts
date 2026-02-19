@@ -10,6 +10,7 @@ export class InMemoryStatesRepository implements StatesRepository {
         const state = {
             id: data.id ?? randomUUID(),
             name: data.name,
+            uf: data.uf
         }
 
         this.states.push(state)

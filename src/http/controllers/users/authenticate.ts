@@ -1,3 +1,4 @@
+import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUserUseCase } from "@/use-cases/factories/make-authenticate-user-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
@@ -10,36 +11,38 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 
     const { email, password } = authenticateUserBodySchema.parse(request.body)
 
-    const registerOngUseCase = makeAuthenticateUserUseCase()
+    try {
 
-    const { user } = await registerOngUseCase.execute({ email, password })
 
-    const token = await reply.jwtSign(
-        {
-            role: user.role,
-        },
-        {
-            sign: {
+        const registerOngUseCase = makeAuthenticateUserUseCase()
+
+        const { user } = await registerOngUseCase.execute({ email, password })
+
+        const token = await reply.jwtSign(
+            {
+                role: user.role,
                 sub: user.id,
-            }
-        }
-    )
+            },
+        )
 
-    const refreshToken = await reply.jwtSign({
-        role: user.role,
-    }, {
-        sign: {
+        const refreshToken = await reply.jwtSign({
+            role: user.role,
             sub: user.id,
+        }, {
             expiresIn: '7d',
-        }
-    })
-
-    return reply
-        .setCookie('refreshToken', refreshToken, {
-            path: '/',
-            secure: true,
-            sameSite: true,
-            httpOnly: true,
         })
-        .status(200).send({ token })
+
+        return reply
+            .setCookie('refreshToken', refreshToken, {
+                path: '/',
+                secure: true,
+                sameSite: true,
+                httpOnly: true,
+            })
+            .status(200).send({ token })
+    } catch (err) {
+        if (err instanceof InvalidCredentialsError) {
+            return reply.status(400).send({ message: err.message })
+        }
+    }
 }

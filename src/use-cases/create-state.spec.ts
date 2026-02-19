@@ -13,7 +13,8 @@ describe("register state use-case", () => {
 
     it("should be able to create a state", async () => {
         const { state } = await sut.execute({
-            name: "São Paulo"
+            name: "São Paulo",
+            uf: "SP"
         })
 
         expect(state.id).toEqual(expect.any(String))

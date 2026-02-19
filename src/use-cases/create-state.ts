@@ -3,6 +3,7 @@ import { State } from "@prisma/client"
 
 interface CreateStateUseCaseRequest {
     name: string
+    uf: string
 }
 
 interface CreateStateUseCaseResponse {
@@ -12,12 +13,13 @@ interface CreateStateUseCaseResponse {
 
 export class CreateStateUseCase {
 
-    constructor(private statesRepository: StatesRepository) {}
+    constructor(private statesRepository: StatesRepository) { }
 
-    async execute ({ name }: CreateStateUseCaseRequest): Promise<CreateStateUseCaseResponse> {
+    async execute({ name, uf }: CreateStateUseCaseRequest): Promise<CreateStateUseCaseResponse> {
 
         const state = await this.statesRepository.create({
             name,
+            uf
         })
 
         return {

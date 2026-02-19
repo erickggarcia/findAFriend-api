@@ -19,7 +19,7 @@ describe('register ong useCase', () => {
     })
 
     it('should be able to register a new ong', async () => {
-        await statesRepository.create({ id: "sp-state-1", name: "São Paulo" })
+        await statesRepository.create({ id: "sp-state-1", name: "São Paulo", uf: "SP" })
         await citiesRepository.create({ id: "sp-city-1", name: "São Paulo", stateId: 'sp-state-1' })
 
         const { ong } = await sut.execute({
