@@ -3,46 +3,49 @@ import { makeAuthenticateUserUseCase } from "@/use-cases/factories/make-authenti
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
-    const authenticateUserBodySchema = z.object({
-        email: z.email(),
-        password: z.string().min(6),
-    })
+export async function authenticate(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const authenticateUserBodySchema = z.object({
+    email: z.email(),
+    password: z.string().min(6),
+  });
 
-    const { email, password } = authenticateUserBodySchema.parse(request.body)
+  const { email, password } = authenticateUserBodySchema.parse(request.body);
 
-    try {
+  try {
+    const authenticateUserUseCase = makeAuthenticateUserUseCase();
 
+    const { user } = await authenticateUserUseCase.execute({ email, password });
 
-        const registerOngUseCase = makeAuthenticateUserUseCase()
+    const token = await reply.jwtSign({
+      role: user.role,
+      sub: user.id,
+    });
 
-        const { user } = await registerOngUseCase.execute({ email, password })
+    const refreshToken = await reply.jwtSign(
+      {
+        role: user.role,
+        sub: user.id,
+      },
+      {
+        expiresIn: "7d",
+      },
+    );
 
-        const token = await reply.jwtSign(
-            {
-                role: user.role,
-                sub: user.id,
-            },
-        )
-
-        const refreshToken = await reply.jwtSign({
-            role: user.role,
-            sub: user.id,
-        }, {
-            expiresIn: '7d',
-        })
-
-        return reply
-            .setCookie('refreshToken', refreshToken, {
-                path: '/',
-                secure: true,
-                sameSite: true,
-                httpOnly: true,
-            })
-            .status(200).send({ token })
-    } catch (err) {
-        if (err instanceof InvalidCredentialsError) {
-            return reply.status(400).send({ message: err.message })
-        }
+    return reply
+      .setCookie("refreshToken", refreshToken, {
+        path: "/",
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token });
+  } catch (err) {
+    if (err instanceof InvalidCredentialsError) {
+      return reply.status(400).send({ message: err.message });
     }
+  }
 }
