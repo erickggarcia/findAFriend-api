@@ -3,42 +3,47 @@ import { makeAuthenticateOngUseCase } from "@/use-cases/factories/make-authentic
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
-    const authenticateOngBodySchema = z.object({
-        email: z.email(),
-        password: z.string(),
+export async function authenticate(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const authenticateOngBodySchema = z.object({
+    email: z.email(),
+    password: z.string(),
+  });
 
-    })
+  const { email, password } = authenticateOngBodySchema.parse(request.body);
 
-    const { email, password } = authenticateOngBodySchema.parse(request.body)
+  try {
+    const authenticateOngUseCase = makeAuthenticateOngUseCase();
 
-    try {
+    const { ong } = await authenticateOngUseCase.execute({ email, password });
 
-        const registerOngUseCase = makeAuthenticateOngUseCase()
+    const token = await reply.jwtSign({
+      sub: ong.id,
+    });
 
-        const { ong } = await registerOngUseCase.execute({ email, password })
+    const refreshToken = await reply.jwtSign(
+      {
+        sub: ong.id,
+      },
+      {
+        expiresIn: "7d",
+      },
+    );
 
-        const token = await reply.jwtSign({
-            sub: ong.id,
-        })
-
-        const refreshToken = await reply.jwtSign({
-            sub: ong.id,
-        }, {
-            expiresIn: '7d',
-        })
-
-        return reply
-            .setCookie('refreshToken', refreshToken, {
-                path: '/',
-                secure: true,
-                sameSite: true,
-                httpOnly: true,
-            })
-            .status(200).send({ token })
-    } catch (err) {
-        if (err instanceof InvalidCredentialsError) {
-            return reply.status(400).send({ message: err.message })
-        }
+    return reply
+      .setCookie("refreshToken", refreshToken, {
+        path: "/",
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token });
+  } catch (err) {
+    if (err instanceof InvalidCredentialsError) {
+      return reply.status(400).send({ message: err.message });
     }
+  }
 }
