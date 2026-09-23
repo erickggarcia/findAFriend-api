@@ -2,10 +2,6 @@
 
 API REST para adoção de animais. ORGs (organizações de proteção animal) cadastram pets disponíveis para adoção, e quem quer adotar encontra pets por cidade e características e entra em contato com a ORG pelo WhatsApp.
 
-Projeto desenvolvido como desafio do Ignite Node.js (2022) da Rocketseat, seguindo princípios SOLID, com testes unitários e end-to-end.
-
----
-
 ## ✨ Funcionalidades
 
 ### Requisitos funcionais
