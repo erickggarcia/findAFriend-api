@@ -3,14 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { createAndAuthenticateUserOrOng } from "@/utils/test/create-and-authenticate-user-or-ong";
 
-const newAdmin = {
-    name: 'Erick',
-    lastName: 'Test',
-    email: 'erick@test.com',
-    password: '123456'
-}
-
-describe('register user e2e', () => {
+describe('create state e2e', () => {
     beforeAll(async () => {
         await app.ready()
     })
@@ -19,39 +12,32 @@ describe('register user e2e', () => {
         await app.close()
     })
 
-    it('Should not allow an unauthenticated request to register an admin', async () => {
+    it('Should return 401 without a token', async () => {
         const response = await request(app.server)
-            .post('/users/register')
-            .send(newAdmin)
+            .post('/states/create')
+            .send({ name: 'Minas Gerais', uf: 'MG' })
 
         expect(response.statusCode).toEqual(401)
     })
 
-    it('Should allow an admin to register a new admin', async () => {
+    it('Should allow an admin to create a state', async () => {
         const { token } = await createAndAuthenticateUserOrOng(app, 'USER')
 
         const response = await request(app.server)
-            .post('/users/register')
+            .post('/states/create')
             .set('Authorization', `Bearer ${token}`)
-            .send(newAdmin)
+            .send({ name: 'Minas Gerais', uf: 'MG' })
 
         expect(response.statusCode).toEqual(201)
-
-        const authResponse = await request(app.server)
-            .post('/users/authenticate')
-            .send({ email: newAdmin.email, password: newAdmin.password })
-
-        const payload = app.jwt.decode<{ role: string }>(authResponse.body.token)
-        expect(payload?.role).toEqual('ADMIN')
     })
 
-    it('Should not allow an ong to register an admin', async () => {
+    it('Should not allow an ong to create a state', async () => {
         const { token } = await createAndAuthenticateUserOrOng(app, 'ONG')
 
         const response = await request(app.server)
-            .post('/users/register')
+            .post('/states/create')
             .set('Authorization', `Bearer ${token}`)
-            .send({ ...newAdmin, email: 'another@test.com' })
+            .send({ name: 'Bahia', uf: 'BA' })
 
         expect(response.statusCode).toEqual(403)
     })

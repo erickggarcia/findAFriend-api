@@ -1,13 +1,19 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-    await request.jwtVerify({ onlyCookie: true })
+    try {
+        await request.jwtVerify({ onlyCookie: true })
+    } catch {
+        return reply.status(401).send({ message: 'Unauthorized' })
+    }
 
-    const { role } = request.user
+    if (request.user.role !== 'ADMIN') {
+        return reply.status(403).send({ message: 'Forbidden' })
+    }
 
     const token = await reply.jwtSign(
         {
-            role,
+            role: 'ADMIN',
         },
         {
             sign: {
@@ -18,7 +24,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
 
     const refreshToken = await reply.jwtSign(
         {
-            role
+            role: 'ADMIN',
         },
         {
             sign: {

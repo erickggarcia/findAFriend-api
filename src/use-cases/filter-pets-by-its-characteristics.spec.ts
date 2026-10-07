@@ -26,7 +26,7 @@ describe('filter pets by its characteristics useCase', () => {
 
     it('should be able to filter a pet by its characteristics', async () => {
 
-        statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
+        statesRepository.create({ name: 'Rio de Janeiro', uf: 'RJ', id: 'rio-state-id' })
         citiesRepository.create({ name: 'Rio de Janeiro', stateId: 'rio-state-id', id: 'rio-city-id' })
 
         ongsRepository.register({
@@ -81,7 +81,7 @@ describe('filter pets by its characteristics useCase', () => {
 
     it("should return max os 20 items", async () => {
 
-        statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
+        statesRepository.create({ name: 'Rio de Janeiro', uf: 'RJ', id: 'rio-state-id' })
         citiesRepository.create({ name: 'Rio de Janeiro', stateId: 'rio-state-id', id: 'rio-city-id' })
         ongsRepository.register({
             id: 'ong-01-id',

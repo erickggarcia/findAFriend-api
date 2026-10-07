@@ -13,11 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  MEMBER
-}
-
 enum Size {
   BIG
   MEDIUM
@@ -30,7 +25,6 @@ model User {
   lastName      String
   email         String   @unique
   password_hash String
-  role          Role     @default(MEMBER)
   created_at    DateTime @default(now())
 
   updated_at DateTime?

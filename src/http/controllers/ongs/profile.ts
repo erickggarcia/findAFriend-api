@@ -9,7 +9,9 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
         return reply.status(200).send({ ...ong, password_hash: undefined })
     } catch (err) {
         if (err instanceof ResourceNotFoundError) {
-            return reply.status(400).send({ message: err.message })
+            return reply.status(404).send({ message: err.message })
         }
+
+        throw err
     }
 }

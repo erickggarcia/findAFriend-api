@@ -11,10 +11,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         age: z.number(),
         size: z.enum(['SMALL', 'MEDIUM', 'BIG']),
         details: z.string(),
-        ongId: z.string()
     })
 
-    const { photoUrl, name, breed, color, age, size, details, ongId } = registerPetsBodySchema.parse(request.body)
+    const { photoUrl, name, breed, color, age, size, details } = registerPetsBodySchema.parse(request.body)
+    const ongId = request.user.sub
+
     const registerPetUseCase = makeRegisterPetUseCase()
     await registerPetUseCase.execute({ photoUrl, name, breed, color, age, size, details, ongId })
 

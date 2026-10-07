@@ -35,11 +35,15 @@ app.setErrorHandler((error, _, reply) => {
             .send({ message: 'Validation error', issues: error.format() })
     }
 
-    if (env.NODE_ENV === 'production') {
+    if (error.statusCode && error.statusCode < 500) {
+        return reply.status(error.statusCode).send({ message: error.message })
+    }
+
+    if (env.NODE_ENV !== 'production') {
         console.error(error)
     } else {
         // TODO Here we should log to a external tool like DataDog/NewRelic/Sentry
     }
 
-    return reply.status(500).send({ message: 'Internal server error', error })
+    return reply.status(500).send({ message: 'Internal server error' })
 })

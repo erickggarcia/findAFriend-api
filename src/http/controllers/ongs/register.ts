@@ -1,3 +1,4 @@
+import { CityDoesNotExistsError } from "@/use-cases/errors/city-does-not-exists-error";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
 import { makeRegisterOngUseCase } from "@/use-cases/factories/make-register-ong-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -26,9 +27,13 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         return reply.status(201).send({ message: 'ong successfully registered' })
     } catch (err) {
         if (err instanceof UserAlreadyExistsError) {
-            return reply.status(400).send({ message: err.message })
+            return reply.status(409).send({ message: err.message })
         }
+
+        if (err instanceof CityDoesNotExistsError) {
+            return reply.status(404).send({ message: err.message })
+        }
+
+        throw err
     }
-
-
 }

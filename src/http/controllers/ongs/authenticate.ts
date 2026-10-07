@@ -20,11 +20,13 @@ export async function authenticate(
     const { ong } = await authenticateOngUseCase.execute({ email, password });
 
     const token = await reply.jwtSign({
+      role: "ONG",
       sub: ong.id,
     });
 
     const refreshToken = await reply.jwtSign(
       {
+        role: "ONG",
         sub: ong.id,
       },
       {
@@ -45,5 +47,7 @@ export async function authenticate(
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
     }
+
+    throw err;
   }
 }

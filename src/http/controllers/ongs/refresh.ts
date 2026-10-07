@@ -1,20 +1,38 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-    await request.jwtVerify({ onlyCookie: true })
+    try {
+        await request.jwtVerify({ onlyCookie: true })
+    } catch {
+        return reply.status(401).send({ message: 'Unauthorized' })
+    }
 
-    const token = await reply.jwtSign({
-        sign: {
-            sub: request.user.sub,
-        }
-    })
+    if (request.user.role !== 'ONG') {
+        return reply.status(403).send({ message: 'Forbidden' })
+    }
 
-    const refreshToken = await reply.jwtSign({
-        sign: {
-            sub: request.user.sub,
-            expiresIn: '7d',
+    const token = await reply.jwtSign(
+        {
+            role: 'ONG',
+        },
+        {
+            sign: {
+                sub: request.user.sub,
+            }
         }
-    })
+    )
+
+    const refreshToken = await reply.jwtSign(
+        {
+            role: 'ONG',
+        },
+        {
+            sign: {
+                sub: request.user.sub,
+                expiresIn: '7d',
+            }
+        }
+    )
 
     return reply
         .setCookie('refreshToken', refreshToken, {

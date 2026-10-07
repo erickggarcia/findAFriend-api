@@ -27,6 +27,12 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet
     }
 
+    async findById(id: string) {
+        const pet = this.pets.find(pet => pet.id === id)
+
+        return pet ?? null
+    }
+
     async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, cityId: string, page: number = 1) {
 
         const ongs = await this.ongsRepository.fetchOngsByCityId(cityId)

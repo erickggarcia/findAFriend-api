@@ -12,7 +12,7 @@ describe('find state unity test useCase', () => {
     })
 
     it('Should be able to find a state by its id', async () => {
-        statesRepository.create({ id: 'rio-state-id', name: 'Rio de Janeiro' })
+        statesRepository.create({ id: 'rio-state-id', name: 'Rio de Janeiro', uf: 'RJ' })
 
         const { state } = await sut.execute({ id: 'rio-state-id' })
 

@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-export function verifyUserRole(roleToVerify: 'MEMBER' | 'ADMIN') {
-    return async (Request: FastifyRequest, reply: FastifyReply) => {
-        const { role } = Request.user
+export function verifyUserRole(roleToVerify: 'ADMIN' | 'ONG') {
+    return async (request: FastifyRequest, reply: FastifyReply) => {
+        const { role } = request.user
 
         if (roleToVerify !== role) {
-            return reply.status(401).send({ message: 'Unauthorized' })
+            return reply.status(403).send({ message: 'Forbidden' })
         }
     }
 }

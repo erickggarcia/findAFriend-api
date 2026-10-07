@@ -12,7 +12,6 @@ export async function createAndAuthenticateUserOrOng(app: FastifyInstance, type:
                 lastName: 'Doe',
                 email: 'JohnDoe@example.com',
                 password_hash: await hash('1234567', 6),
-                role: 'ADMIN'
             }
         })
 

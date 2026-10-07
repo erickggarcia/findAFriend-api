@@ -20,13 +20,13 @@ export async function authenticate(
     const { user } = await authenticateUserUseCase.execute({ email, password });
 
     const token = await reply.jwtSign({
-      role: user.role,
+      role: "ADMIN",
       sub: user.id,
     });
 
     const refreshToken = await reply.jwtSign(
       {
-        role: user.role,
+        role: "ADMIN",
         sub: user.id,
       },
       {
@@ -47,5 +47,7 @@ export async function authenticate(
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
     }
+
+    throw err;
   }
 }

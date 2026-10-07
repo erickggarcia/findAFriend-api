@@ -26,7 +26,7 @@ describe('fetch pets by its city useCase', () => {
 
     it('should be able to list pets according to its city', async () => {
 
-        statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
+        statesRepository.create({ name: 'Rio de Janeiro', uf: 'RJ', id: 'rio-state-id' })
         citiesRepository.create({ name: 'Rio de Janeiro', stateId: 'rio-state-id', id: 'rio-city-id' })
         ongsRepository.register({
             id: 'ong-01-id',
@@ -73,7 +73,7 @@ describe('fetch pets by its city useCase', () => {
     })
 
     it('should return city does not exists error', async () => {
-        statesRepository.create({ name: 'São Paulo', id: 'sp-state-id' })
+        statesRepository.create({ name: 'São Paulo', uf: 'SP', id: 'sp-state-id' })
         citiesRepository.create({ name: 'São Paulo', stateId: 'sp-state-id', id: 'sp-city-id' })
         ongsRepository.register({
             id: 'ong-01-id',

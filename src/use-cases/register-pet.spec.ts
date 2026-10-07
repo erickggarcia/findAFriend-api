@@ -21,7 +21,7 @@ describe("Register Pet Use Case", () => {
             breed: "Golden Retriever",
             color: "Golden",
             age: 3,
-            size: "Large",
+            size: "BIG",
             details: "Amigável e energético",
             ongId: "some-ong-id"
         })

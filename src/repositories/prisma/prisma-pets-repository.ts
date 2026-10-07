@@ -9,6 +9,12 @@ export class PrismaPetsRepository implements PetsRepository {
         return pet
     }
 
+    async findById(id: string): Promise<Pet | null> {
+        const pet = await prisma.pet.findUnique({ where: { id } })
+
+        return pet
+    }
+
     async filterPetsByCharacteristics(petCharacteristics: Partial<Prisma.PetUncheckedCreateInput>, cityId: string, page: number = 1): Promise<(Pet & Partial<Ong>)[] | []> {
 
         const take = 20

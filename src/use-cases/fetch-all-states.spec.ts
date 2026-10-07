@@ -15,8 +15,8 @@ describe('filter pets by its characteristics useCase', () => {
 
     it('should be able to fetch all states', async () => {
 
-        statesRepository.create({ name: 'Rio de Janeiro', id: 'rio-state-id' })
-        statesRepository.create({ name: 'São Paulo', id: 'sp-state-id' })
+        statesRepository.create({ name: 'Rio de Janeiro', uf: 'RJ', id: 'rio-state-id' })
+        statesRepository.create({ name: 'São Paulo', uf: 'SP', id: 'sp-state-id' })
 
         const { states } = await sut.execute()
 
